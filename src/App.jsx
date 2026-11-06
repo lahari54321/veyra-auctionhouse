@@ -1,0 +1,103 @@
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { ToastProvider } from './context/ToastContext';
+import { AuthProvider } from './context/AuthContext';
+import { ProductsProvider } from './context/ProductsContext';
+import { CartProvider } from './context/CartContext';
+import { WishlistProvider } from './context/WishlistContext';
+import { AuctionProvider } from './context/AuctionContext';
+import { ReviewsProvider } from './context/ReviewsContext';
+import { FollowProvider } from './context/FollowContext';
+import { SellerProfileProvider } from './context/SellerProfileContext';
+
+import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
+import { ToastContainer } from './components/ToastContainer';
+
+import { Home } from './pages/Home';
+import { Shop } from './pages/Shop';
+import { Categories } from './pages/Categories';
+import { LiveAuctions } from './pages/LiveAuctions';
+import { UpcomingLots } from './pages/UpcomingLots';
+import { LiveAuctionRoom } from './pages/LiveAuctionRoom';
+import { ProductDetails } from './pages/ProductDetails';
+import { Schedule } from './pages/Schedule';
+import { Account } from './pages/Account';
+import { Wishlist } from './pages/Wishlist';
+import { Cart } from './pages/Cart';
+import { SignIn } from './pages/SignIn';
+import { SignUp } from './pages/SignUp';
+import { ForgotPassword } from './pages/ForgotPassword';
+import { ResetPassword } from './pages/ResetPassword';
+import { Sell } from './pages/Sell';
+import { SellerShop } from './pages/SellerShop';
+import { MyProducts } from './pages/MyProducts';
+
+// Scroll to top helper on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+export const App = () => {
+  return (
+    <ToastProvider>
+      <AuthProvider>
+        <ProductsProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <AuctionProvider>
+                <FollowProvider>
+                  <ReviewsProvider>
+                    <SellerProfileProvider>
+                      <ScrollToTop />
+                      {/* Announcement bar removed per specification */}
+                      <Navbar />
+                      <main>
+                        <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/shop" element={<Shop />} />
+                          <Route path="/explore" element={<Shop />} />
+                          <Route path="/categories" element={<Categories />} />
+                          <Route path="/live-auctions" element={<LiveAuctions />} />
+                          <Route path="/auctions" element={<LiveAuctions />} />
+                          <Route path="/upcoming-lots" element={<UpcomingLots />} />
+                          <Route path="/live/:id" element={<LiveAuctionRoom />} />
+                          <Route path="/auction/:id" element={<LiveAuctionRoom />} />
+                          <Route path="/meet/:id" element={<LiveAuctionRoom autoOpenMeet={true} />} />
+                          <Route path="/product/:id" element={<ProductDetails />} />
+                          <Route path="/seller/:sellerId" element={<SellerShop />} />
+                          <Route path="/schedule" element={<Schedule />} />
+                          <Route path="/account" element={<Account />} />
+                          <Route path="/profile" element={<Account />} />
+                          <Route path="/wishlist" element={<Wishlist />} />
+                          <Route path="/cart" element={<Cart />} />
+                          {/* Login and Registration pages kept EXACTLY as they are visually */}
+                          <Route path="/signin" element={<SignIn />} />
+                          <Route path="/signup" element={<SignUp />} />
+                          <Route path="/forgot-password" element={<ForgotPassword />} />
+                          <Route path="/reset-password" element={<ResetPassword />} />
+                          <Route path="/sell" element={<Sell />} />
+                          <Route path="/my-products" element={<MyProducts />} />
+                          {/* Fallback */}
+                          <Route path="*" element={<Home />} />
+                        </Routes>
+                      </main>
+                      <Footer />
+                      <ToastContainer />
+                    </SellerProfileProvider>
+                  </ReviewsProvider>
+                </FollowProvider>
+              </AuctionProvider>
+            </WishlistProvider>
+          </CartProvider>
+        </ProductsProvider>
+      </AuthProvider>
+    </ToastProvider>
+  );
+};
+
+export default App;
